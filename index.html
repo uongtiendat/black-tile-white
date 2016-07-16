@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Piano Tile Clone</title>
+	<style type="text/css">
+		canvas {
+			display: block;
+			position: absolute;
+			margin: auto;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+
+		var canvas,
+			canvasLeft,
+			canvasTop,
+			ctx,
+
+			elements = [],
+
+			WIDTH = 320,
+			HEIGHT = 480,
+
+			count = 0,
+
+			clickFlag = 0;
+			startFlag = 0;
+
+		score = {
+			x:145,
+			y:60,
+
+			update: function() {
+
+			},
+
+			draw: function() {
+				ctx.font = "50px Comic Sans Ms";
+				ctx.fillStyle = "red";
+				ctx.fillText(count, this.x, this.y);
+			}
+		}
+
+		white_tile = {
+			x:0,
+			y:0,
+			_x:1,
+			_y:5,
+			width: 80,
+			height: 120,
+
+			update: function() {
+				this.y += this._y;
+				if(this.y + this.height * 4 > HEIGHT) {
+					this.y = -this.height + this._y;
+				}
+			},
+
+			draw: function() {
+				for(var i = 0; i < 4; i++) {
+					ctx.strokeRect(this.x + this.width * i, this.y, this.width, this.height);
+					// for(var j = i; j < 4; j++) {
+					// 	ctx.strokeRect(this.x + this.width * j, this.y + this.height * (j + 1), this.width, this.height);
+					// }
+					ctx.strokeRect(this.x, this.y + this.height * (i + 1), this.width, this.height);
+					ctx.strokeRect(this.x + this.width, this.y + this.height * (i + 1), this.width, this.height);
+					ctx.strokeRect(this.x + this.width * 2, this.y + this.height * (i + 1), this.width, this.height);
+					ctx.strokeRect(this.x + this.width * 3, this.y + this.height * (i + 1), this.width, this.height);
+				}
+			}
+		}
+
+		black_tile = {
+			x:0,
+			y:0,
+			_x:1,
+			_y:5,
+			_position:null,
+			_position1:null,
+			_position2:null,
+			_position3:null,
+			width:80,
+			height:120,
+			flag:0,
+			_tiles:[],
+
+			update: function() {
+				this.y += this._y;
+				if(this.y > HEIGHT) {
+					if(clickFlag == 0) {
+						alert('YOU LOSE !!!')
+						startFlag = 0;
+					}
+					else {
+						this.y = -this.height + this._y;
+						this._position = Math.floor((Math.random() * 4) + 0);
+						clickFlag = 0;
+				// 	if(this.flag == 0) {
+					// this._position1 = Math.floor((Math.random() * 4) + 0);
+					// this._position2 = Math.floor((Math.random() * 4) + 0);
+					// this._position3 = Math.floor((Math.random() * 4) + 0);
+				// 	this.flag = 1;
+				// }
+					}
+				}
+			},
+
+			draw: function() {
+				// this._position = Math.floor((Math.random() * 4) + 0);
+				// for(var i = 0; i < 4; i++) {
+					ctx.fillStyle = "black";
+				if(this._position != null) {
+					ctx.fillRect(this.x + this.width * this._position, this.y, this.width, this.height);
+					// ctx.fillRect(this.x + this.width * this._position1, this.y - this.height, this.width, this.height);
+					// ctx.fillRect(this.x + this.width * this._position2, this.y - this.height * 2, this.width, this.height);
+					// ctx.fillRect(this.x + this.width * this._position3, this.y - this.height * 3, this.width, this.height);
+					// ctx.fillRect(this.x + this.width * this._position1, this.y + this.height, this.width, this.height);
+					// ctx.fillRect(this.x + this.width * this._position2, this.y + this.height * 2, this.width, this.height);
+					// ctx.fillRect(this.x + this.width * this._position3, this.y + this.height * 3, this.width, this.height);
+				// }
+				}
+			}
+		}
+
+		black_tile2 = {
+			x:0,
+			y:0,
+			_x:1,
+			_y:5,
+			_position:null,
+			_position1:null,
+			_position2:null,
+			_position3:null,
+			width:80,
+			height:120,
+			flag:0,
+			_tiles:[],
+
+			update: function() {
+				this.y += this._y;
+				if(this.y + this.height > HEIGHT) {
+					if(clickFlag == 0) {
+						alert('YOU LOSE !!!')
+						startFlag = 0;
+					}
+					else {
+						this.y = -this.height * 2 + this._y;
+						this._position = Math.floor((Math.random() * 4) + 0);
+						clickFlag = 0;
+					}
+				}
+			},
+
+			draw: function() {
+				ctx.fillStyle = "black";
+				if(this._position != null) {
+					ctx.fillRect(this.x + this.width * this._position, this.y + this.height, this.width, this.height);
+				}
+			}
+		}
+
+		black_tile3 = {
+			x:0,
+			y:0,
+			_x:1,
+			_y:5,
+			_position:null,
+			_position1:null,
+			_position2:null,
+			_position3:null,
+			width:80,
+			height:120,
+			flag:0,
+			_tiles:[],
+
+			update: function() {
+				this.y += this._y;
+				if(this.y + this.height * 2 > HEIGHT) {
+					if(clickFlag == 0) {
+						alert('YOU LOSE !!!')
+						startFlag = 0;
+					}
+					else {
+						this.y = -this.height * 3 + this._y;
+						this._position = Math.floor((Math.random() * 4) + 0);
+						clickFlag = 0;
+					}
+				}
+			},
+
+			draw: function() {
+				ctx.fillStyle = "black";
+				if(this._position != null) {
+					ctx.fillRect(this.x + this.width * this._position, this.y + this.height * 2, this.width, this.height);
+				}
+			}
+		}
+
+		black_tile4 = {
+			x:0,
+			y:0,
+			_x:1,
+			_y:5,
+			_position:null,
+			_position1:null,
+			_position2:null,
+			_position3:null,
+			width:80,
+			height:120,
+			flag:0,
+			_tiles:[],
+
+			update: function() {
+				this.y += this._y;
+				if(this.y + this.height * 3 > HEIGHT) {
+					if(clickFlag == 0) {
+						alert('YOU LOSE !!!')
+						startFlag = 0;
+					}
+					else {
+						this.y = -this.height * 4 + this._y;
+						this._position = Math.floor((Math.random() * 4) + 0);
+						clickFlag = 0;
+					}
+				}
+			},
+
+			draw: function() {
+				ctx.fillStyle = "black";
+				if(this._position != null) {
+					ctx.fillRect(this.x + this.width * this._position, this.y + this.height * 3, this.width, this.height);
+				}
+			}
+		}
+
+		black_tile5 = {
+			x:0,
+			y:0,
+			_x:1,
+			_y:5,
+			_position:null,
+			_position1:null,
+			_position2:null,
+			_position3:null,
+			width:80,
+			height:120,
+			flag:0,
+			_tiles:[],
+
+			update: function() {
+				this.y += this._y;
+				if(this.y - this.height > HEIGHT) {
+					if(clickFlag == 0) {
+						alert('YOU LOSE !!!')
+						startFlag = 0;
+					}
+					else {
+						this.y = this._y;
+						this._position = Math.floor((Math.random() * 4) + 0);
+						clickFlag = 0;
+					}
+				}
+			},
+
+			draw: function() {
+				ctx.fillStyle = "black";
+				if(this._position != null) {
+					ctx.fillRect(this.x + this.width * this._position, this.y - this.height, this.width, this.height);
+				}
+			}
+		}
+
+		function main() {
+			canvas = document.createElement("canvas");
+			canvas.width = WIDTH;
+			canvas.height = HEIGHT;
+			canvas.style.border = "1px solid #000";
+			ctx = canvas.getContext("2d");
+			document.body.appendChild(canvas);
+			canvasLeft = canvas.offsetLeft;
+			canvasTop = canvas.offsetTop;
+
+			canvas.addEventListener('click', function(event) {
+				startFlag = 1;
+				var x = event.pageX - canvasLeft;
+				var y = event.pageY - canvasTop;
+				// console.log(x, y);
+				// elements.forEach(function(element) {
+					// if( y > black_tile.y && y < black_tile.y + black_tile.height && x > black_tile.x + black_tile.width * black_tile._position && x < black_tile.x + black_tile.width * black_tile._position + black_tile.width )
+					// 	// alert('black_tile clicked');
+					// 	count++;
+					// if(	y > black_tile2.y + black_tile2.height && y < black_tile2.y + black_tile2.height * 2 && x > black_tile2.x + black_tile2.width * black_tile2._position && x < black_tile2.x + black_tile2.width * black_tile2._position + black_tile2.width )
+					// 	// alert('black_tile2 clicked');
+					// 	count++;
+					// if(	y > black_tile3.y + black_tile3.height * 2 && y < black_tile3.y + black_tile3.height * 3 && x > black_tile3.x + black_tile3.width * black_tile3._position && x < black_tile3.x + black_tile3.width * black_tile3._position + black_tile3.width )
+					// 	// alert('black_tile3 clicked');
+					// 	count++;
+					// if(	y > black_tile4.y + black_tile4.height * 3 && y < black_tile4.y + black_tile4.height * 4 && x > black_tile4.x + black_tile4.width * black_tile4._position && x < black_tile4.x + black_tile4.width * black_tile4._position + black_tile4.width )
+					// 	// alert('black_tile4 clicked');
+					// 	count++;
+					// if(	y > black_tile5.y - black_tile5.height && y < black_tile5.y && x > black_tile5.x + black_tile5.width * black_tile5._position && x < black_tile5.x + black_tile5.width * black_tile5._position + black_tile5.width )
+					// 	// alert('black_tile5 clicked');
+					// 	count++;
+					if( y > black_tile.y && y < black_tile.y + black_tile.height && x > black_tile.x + black_tile.width * black_tile._position && x < black_tile.x + black_tile.width * black_tile._position + black_tile.width ||
+						y > black_tile2.y + black_tile2.height && y < black_tile2.y + black_tile2.height * 2 && x > black_tile2.x + black_tile2.width * black_tile2._position && x < black_tile2.x + black_tile2.width * black_tile2._position + black_tile2.width ||
+						y > black_tile3.y + black_tile3.height * 2 && y < black_tile3.y + black_tile3.height * 3 && x > black_tile3.x + black_tile3.width * black_tile3._position && x < black_tile3.x + black_tile3.width * black_tile3._position + black_tile3.width ||
+						y > black_tile4.y + black_tile4.height * 3 && y < black_tile4.y + black_tile4.height * 4 && x > black_tile4.x + black_tile4.width * black_tile4._position && x < black_tile4.x + black_tile4.width * black_tile4._position + black_tile4.width ||
+						y > black_tile5.y - black_tile5.height && y < black_tile5.y && x > black_tile5.x + black_tile5.width * black_tile5._position && x < black_tile5.x + black_tile5.width * black_tile5._position + black_tile5.width ) {
+						count++;
+						clickFlag = 1;
+					}
+					else {
+						alert("YOU LOSE !!!");
+						startFlag = 0;
+					}
+				// });
+			});
+
+			init();
+
+			var loop = function() {
+				update();
+				draw();
+				window.requestAnimationFrame(loop, canvas);
+			};
+			window.requestAnimationFrame(loop, canvas);
+		}
+
+		function init() {
+			elements.push(black_tile, black_tile2, black_tile3, black_tile4, black_tile5);
+			black_tile._position = Math.floor((Math.random() * 4) + 0);
+			black_tile2._position = Math.floor((Math.random() * 4) + 0);
+			black_tile3._position = Math.floor((Math.random() * 4) + 0);
+			black_tile4._position = Math.floor((Math.random() * 4) + 0);
+			black_tile5._position = Math.floor((Math.random() * 4) + 0);
+		}
+
+		function draw() {
+			ctx.clearRect(0, 0, WIDTH, HEIGHT);
+			white_tile.draw();
+			black_tile.draw();
+			black_tile2.draw();
+			black_tile3.draw();
+			black_tile4.draw();
+			black_tile5.draw();
+			score.draw();
+		}
+
+		function update() {
+			if(startFlag == 1) {
+				white_tile.update();
+				black_tile.update();
+				black_tile2.update();
+				black_tile3.update();
+				black_tile4.update();
+				black_tile5.update();
+				score.update();
+			}
+		}
+
+		main();
+	</script>
+</body>
+</html>
